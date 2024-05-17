@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -107,10 +108,12 @@ func getDeviceInfo() (DeviceInfo, float64, error) {
 		return DeviceInfo{}, time.Since(start).Seconds(), err
 	}
 
-	decoded, err := base64.StdEncoding.DecodeString(string(body[:]))
+	decoded, err := base64.StdEncoding.DecodeString(
+		// Non ideal base64 encoding uses _ as padding, rather than =
+		strings.ReplaceAll(string(body), "_", "="),
+	)
 	if err != nil {
-		fmt.Println(string(body))
-		slog.Error("Error decoding base64 response", "err", err, "body", string(body[:]))
+		slog.Error("Error decoding base64 response", "err", err, "body", string(body))
 		return DeviceInfo{}, time.Since(start).Seconds(), err
 	}
 
