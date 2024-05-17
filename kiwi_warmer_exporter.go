@@ -15,7 +15,7 @@ import (
 var (
 	logLvl = flag.String("log-level", "info",
 		"Log Level")
-	listenAddress = flag.String("web.listen-address", ":9999",
+	listenAddress = flag.String("web.listen-address", ":10015",
 		"Address to listen on for HTTP requests.")
 	metricsPath = flag.String("web.metrics-path", "/metrics",
 		"Path to expose metrics on.")
