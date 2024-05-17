@@ -45,8 +45,8 @@ var (
 	heating    = prometheus.NewDesc("kiwi_warmer_heating", "Whether the switch is currently heating", nil, nil)
 	humidity   = prometheus.NewDesc("kiwi_warmer_humidity_percent", "Current humidity, 0-1", []string{"sensor"}, nil)
 	status     = prometheus.NewDesc("kiwi_warmer_device_status", "Device status", nil, nil)
-	targetTemp = prometheus.NewDesc("kiwi_warmer_target_temperature_celcius", "Target temperature", nil, nil)
-	temp       = prometheus.NewDesc("kiwi_warmer_temperature_celcius", "Current temperature", []string{"sensor"}, nil)
+	targetTemp = prometheus.NewDesc("kiwi_warmer_target_temperature_celsius", "Target temperature", nil, nil)
+	temp       = prometheus.NewDesc("kiwi_warmer_temperature_celsius", "Current temperature", []string{"sensor"}, nil)
 )
 
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
