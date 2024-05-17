@@ -1,0 +1,28 @@
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+dockers:
+  - dockerfile: goreleaser/Dockerfile
+    image_templates:
+    - ghcr.io/benclapp/kiwi_warmer_exporter:latest
+    - ghcr.io/benclapp/kiwi_warmer_exporter:v{{ .Major }}
+    - ghcr.io/benclapp/kiwi_warmer_exporter:v{{ .Major }}.{{ .Minor }}
+    - ghcr.io/benclapp/kiwi_warmer_exporter:{{ .Tag }}
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
