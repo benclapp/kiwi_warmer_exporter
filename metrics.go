@@ -48,6 +48,7 @@ var (
 	status     = prometheus.NewDesc("kiwi_warmer_device_status", "Device status", nil, nil)
 	targetTemp = prometheus.NewDesc("kiwi_warmer_target_temperature_celsius", "Target temperature", nil, nil)
 	temp       = prometheus.NewDesc("kiwi_warmer_temperature_celsius", "Current temperature", []string{"sensor"}, nil)
+	ogTemp     = prometheus.NewDesc("kiwi_warmer_original_temperature_celsius", "Original temperature", []string{"sensor"}, nil)
 )
 
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
@@ -55,6 +56,7 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- duration
 	ch <- info
 	ch <- temp
+	ch <- ogTemp
 	ch <- humidity
 	ch <- heating
 	ch <- targetTemp
@@ -79,6 +81,8 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 	parseAndSetValues("di.CurrentTemperature", di.CurrentTemperature, 100, temp, ch, "0")
 	parseAndSetValues("di.CurrentTemperature2", di.CurrentTemperature2, 100, temp, ch, "1")
+	parseAndSetValues("di.OriginalTemperature", di.OriginalTemperature, 100, ogTemp, ch, "0")
+	parseAndSetValues("di.OriginalTemperature2", di.OriginalTemperature2, 100, ogTemp, ch, "1")
 	parseAndSetValues("di.CurrentHumidity", di.CurrentHumidity, 10000, humidity, ch, "0")
 	parseAndSetValues("di.CurrentHumidity2", di.CurrentHumidity2, 10000, humidity, ch, "1")
 	parseAndSetValues("di.WorkTemperature", di.WorkTemperature, 1, targetTemp, ch)
