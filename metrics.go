@@ -85,7 +85,9 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	parseAndSetValues("di.OriginalTemperature2", di.OriginalTemperature2, 100, ogTemp, ch, "1")
 	parseAndSetValues("di.CurrentHumidity", di.CurrentHumidity, 10000, humidity, ch, "0")
 	parseAndSetValues("di.CurrentHumidity2", di.CurrentHumidity2, 10000, humidity, ch, "1")
-	parseAndSetValues("di.WorkTemperature", di.WorkTemperature, 1, targetTemp, ch)
+	if di.WorkTemperature != "0" {
+		parseAndSetValues("di.WorkTemperature", di.WorkTemperature, 1, targetTemp, ch)
+	}
 	parseAndSetValues("di.HeapHealth", di.HeapHealth, 1, heapHealth, ch)
 	parseAndSetValues("di.IsHeating", di.IsHeating, 1, heating, ch)
 	parseAndSetValues("di.DeviceStatus", di.DeviceStatus, 1, status, ch)
